@@ -28,18 +28,41 @@ body {
 }
 
 .google-search {
+  height: 90vh;
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: 44px auto;
-      grid-template-rows: 44px auto;
+  -ms-grid-rows: 2fr 1fr 1fr;
+      grid-template-rows: 2fr 1fr 1fr;
+}
+
+.search-query-container {
+  width: 65%;
+  height: 44px;
+  border-radius: 24px;
+  border: 1px solid #dfe1e5;
+  place-self: end center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.search-query:focus-visible {
+  border: none;
+  outline: none;
 }
 
 .search-query {
-  width: 65%;
-  height: 44px;
-  margin: auto;
-  border-radius: 24px;
-  border: 1px solid #dfe1e5;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  outline: none;
+  border: none;
+  margin: 0px 20px;
+  font-size: 20px;
 }
 
 .button-link-container {

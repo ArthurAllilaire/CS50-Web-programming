@@ -26,17 +26,30 @@ body{
 }
 
 .google-search{
+  height: 90vh;
   display: grid;
-  grid-template-rows: 44px auto;
+  grid-template-rows: 2fr 1fr 1fr;
 }
-.search-query{
+.search-query-container{
   width: 65%;
   height: 44px;
-  margin: auto;
   border-radius: 24px;
   border: 1px solid $grey;
+  place-self: end center;
+  display: flex;
+  flex-direction: row;
 }
-
+.search-query:focus-visible{
+  border: none;
+  outline: none;
+}
+.search-query{
+  flex-grow: 1;
+  outline: none;
+  border: none;
+  margin: 0px 20px;
+  font-size: 20px;
+}
 .button-link-container{
   flex-grow: 1.2;
   display: flex;
