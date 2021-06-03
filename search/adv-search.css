@@ -1,0 +1,127 @@
+body {
+  color: black;
+  font-family: arial, sans-serif;
+}
+
+.header-item {
+  padding: 10px;
+}
+
+.header-item a {
+  line-height: 24px;
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+}
+
+.header-item a:hover {
+  text-decoration: underline;
+}
+
+.header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.form-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (auto)[2];
+      grid-template-rows: repeat(2, auto);
+  -ms-grid-columns: auto;
+      grid-template-columns: auto;
+      grid-template-areas: "header" "form";
+  margin: auto 5%;
+}
+
+.form-container form {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: form;
+}
+
+.google-search {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (auto)[3];
+      grid-template-rows: repeat(3, auto);
+  -ms-grid-columns: auto;
+      grid-template-columns: auto;
+      grid-template-areas: "pages-with" "labels" "submit";
+}
+
+.pages-with {
+  -ms-grid-row: 1;
+  -ms-grid-column: 1;
+  grid-area: pages-with;
+  padding: 20px 0px;
+  font-size: 20px;
+}
+
+.red-heading {
+  color: red;
+  font-weight: normal;
+  font-size: 26px;
+  border-bottom: 1px solid #dfe1e5;
+  padding: 10px 0px;
+}
+
+.label-container {
+  -ms-grid-row: 2;
+  -ms-grid-column: 1;
+  grid-area: labels;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: (auto)[4];
+      grid-template-rows: repeat(4, auto);
+  gap: 10px 0px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.search-label {
+  display: -ms-grid;
+  display: grid;
+  grid-template: "label input"/1fr 1fr;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 100%;
+}
+
+.submit-button-container {
+  -ms-grid-row: 3;
+  -ms-grid-column: 1;
+  grid-area: submit;
+  padding: 10px 0px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+}
+
+.submit-button-container .submit-button {
+  height: 30px;
+  line-height: 100%;
+  background-color: #4d90fe;
+  border: 1px solid #3079ed;
+  border-radius: 2px;
+  color: white;
+}
+
+.submit-button-container .submit-button:hover {
+  cursor: pointer;
+}
+
+input {
+  height: 20px;
+}
+/*# sourceMappingURL=adv-search.css.map */
