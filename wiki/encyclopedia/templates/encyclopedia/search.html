@@ -1,0 +1,17 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>Matching pages</h1>
+
+    <ul>
+        {% for entry in entries %}
+            {% comment %} url is passed a url pattern name (string) that calls the article veiw, as has name = "title". Also passed the title argument that is needed as entry  {% endcomment %}
+            <li><a href="{% url "title" entry %}">{{entry}}</a></li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
