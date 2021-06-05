@@ -35,3 +35,15 @@ def get_entry(title):
         return f.read().decode("utf-8")
     except FileNotFoundError:
         return None
+
+#Added function to check whether title is in entries
+def is_title_valid(title):
+    """
+    Loops through articles stored and if title matches title of article returns True, False otherwise
+    """
+    entries = list_entries()
+    for entry in entries:
+        if entry == title:
+            return True
+
+    return False
