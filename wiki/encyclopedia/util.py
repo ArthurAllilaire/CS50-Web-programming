@@ -39,7 +39,7 @@ def get_entry(title):
 #Added function to check whether title is in entries
 def is_title_valid(title):
     """
-    Loops through articles stored and if title matches title of article returns True, False otherwise
+    Loops through articles stored and if title matches title of article returns True, False otherwise. Case sensitive
     """
     entries = list_entries()
     for entry in entries:
@@ -47,3 +47,17 @@ def is_title_valid(title):
             return True
 
     return False
+
+#Added function
+def regex_article_match(regex):
+    """
+    Goes through articles and returns list of articles that contain regex passed in as a substring
+    """
+    result = []
+    #Get list of entries and loop over them
+    for entry in list_entries():
+        #Check if regex expression matches
+        if re.search(regex, entry):
+            #If it does get entry and add to result
+            result.append(entry)
+    return result
