@@ -10,7 +10,6 @@ def index(request):
     })
 
 def article(request, title):
-    #Case specific
     article = util.get_entry(title)
     if article == None:
         return HttpResponseNotFound(f"<h1>The page: {title} was not found. (404 Error)</h1>")
