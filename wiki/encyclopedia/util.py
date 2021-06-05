@@ -57,7 +57,7 @@ def regex_article_match(regex):
     #Get list of entries and loop over them
     for entry in list_entries():
         #Check if regex expression matches
-        if re.search(regex, entry):
+        if re.search(regex, entry, re.IGNORECASE):
             #If it does get entry and add to result
             result.append(entry)
     return result

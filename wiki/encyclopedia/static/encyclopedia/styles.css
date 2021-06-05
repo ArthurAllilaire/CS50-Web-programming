@@ -36,3 +36,40 @@ textarea {
 .sidebar h2 {
     margin-top: 5px;
 }
+
+.new_entry_form{
+    display: grid;
+    grid-template: 
+     "title_label title" 40px
+     "content_label content" 1fr 
+     ". submit" 40px/ auto 1fr;
+     gap: 10px 0px;
+}
+textarea{
+    width: 90%;
+    height: 75vh;
+}
+#title_input{
+    grid-area: title;
+    justify-self: start;
+    margin-right: 10px;
+    width: 90%;
+}
+label[for="title_input"]{
+    grid-area: title_label;
+    place-self: center start;
+}
+#content-input{
+    grid-area: content;
+    margin-right: 10px;
+    width: 75vw;
+}
+label[for="content_input"]{
+    grid-area: content_label;
+    place-self: start start;
+    padding-right: 10px;
+}
+.submit{
+    grid-area: submit;
+    width: 90%;
+}
