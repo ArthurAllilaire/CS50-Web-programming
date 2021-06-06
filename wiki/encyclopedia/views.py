@@ -3,6 +3,9 @@ from django.http import HttpResponseNotFound, HttpResponseRedirect, HttpResponse
 from django import forms
 from django.urls import reverse
 
+import random
+import markdown2
+
 from . import util
 
 # Form for layout.html used to search through entries
@@ -60,7 +63,7 @@ def article(request, title):
         "title": title,
         "form": SearchForm(),
         "edit_form": EditForm(initial={"title":title}),
-        "article": article
+        "article": markdown2.markdown(article)
     })
 
 
@@ -171,3 +174,7 @@ def save_edit(request):
             return HttpResponseRedirect(title)
     else:
         return HttpResponseRedirect(reverse("index"))
+
+def random_article(request):
+    title = random.choice(util.list_entries())
+    return HttpResponseRedirect(title)

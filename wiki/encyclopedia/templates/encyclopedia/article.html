@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{{title}}</h1>
-    {{ article }}
+    <h1>Entry for: {{title}}</h1>
+    {{ article|safe }}
     <form action="{% url 'edit' %}" method="post" class="edit_form_submit_button">
         {% csrf_token %}
         {{edit_form}}
