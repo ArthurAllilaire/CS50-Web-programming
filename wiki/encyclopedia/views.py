@@ -29,6 +29,21 @@ class EntryForm(forms.Form):
             attrs={"rows": 5, "cols": 20, "id": "content_input"})
     )
 
+class EditEntry(forms.Form):
+    title = forms.CharField(
+        widget=forms.HiddenInput()
+    )
+    content = forms.CharField(
+        label="",
+        widget=forms.Textarea(
+            attrs={"rows": 5, "cols": 20, "class": "edit_content_input"})
+    )
+
+
+class EditForm(forms.Form):
+    title = forms.CharField(
+        widget=forms.HiddenInput()
+    )
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -44,6 +59,7 @@ def article(request, title):
     return render(request, "encyclopedia/article.html", {
         "title": title,
         "form": SearchForm(),
+        "edit_form": EditForm(initial={"title":title}),
         "article": article
     })
 
@@ -113,3 +129,45 @@ def new(request):
             "entry_form": EntryForm(),
             "title": "Create a new encyclopedia entry"
         })
+
+def edit(request):
+    # Check if method is POST
+    if request.method == "POST":
+
+        # Take in the data the user submitted and save it as form
+        form = EditForm(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+
+            # Isolate the title from the 'cleaned' version of form data
+            title = form.cleaned_data["title"]
+
+            return render(request, "encyclopedia/edit.html", {
+                "form": SearchForm(),
+                # Keep content values
+                "entry_form": EditEntry(
+                    initial={"title": title,"content":util.get_entry(title)}
+                ),
+                "title": title
+            })
+    else:
+        return HttpResponseRedirect(reverse("index"))
+
+def save_edit(request):
+    # Check if method is POST
+    if request.method == "POST":
+
+        # Take in the data the user submitted and save it as form
+        form = EditEntry(request.POST)
+
+        # Check if form data is valid (server-side)
+        if form.is_valid():
+
+            # Isolate the title from the 'cleaned' version of form data
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            util.save_entry(title, content)
+            return HttpResponseRedirect(title)
+    else:
+        return HttpResponseRedirect(reverse("index"))

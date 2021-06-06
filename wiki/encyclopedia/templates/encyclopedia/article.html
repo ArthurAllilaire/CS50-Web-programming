@@ -7,5 +7,10 @@
 {% block body %}
     <h1>{{title}}</h1>
     {{ article }}
+    <form action="{% url 'edit' %}" method="post" class="edit_form_submit_button">
+        {% csrf_token %}
+        {{edit_form}}
+        <input type="submit" value="Edit current page">
+    </form>
 
 {% endblock %}

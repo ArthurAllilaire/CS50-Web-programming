@@ -73,3 +73,6 @@ label[for="content_input"]{
     grid-area: submit;
     width: 90%;
 }
+.edit_form_submit_button{
+    padding: 20px 0px;
+}
