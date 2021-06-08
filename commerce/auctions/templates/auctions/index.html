@@ -1,11 +1,11 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2>Active Listings </h2>
     <div class="listings-cont">
     
         {% for listing in listings%}
-        <div class="listing-cont">
+        <a href={% url "listing" listing.id %} class="listing-cont">
             {% if listing.image%}
                 <div class="image-cont">
                     <img src="media/{{listing.image}}" alt="Photograph of product">
@@ -28,7 +28,7 @@
                     </div>
             </div>
             {%endif%}
-        </div>
+        </a>
         {%empty%}
         <h3>There are currently no active listings</h3>
         {%endfor%}

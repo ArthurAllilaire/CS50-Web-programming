@@ -4,6 +4,8 @@ body{
 //Stylings for home listings form
 .listings-cont{
   .listing-cont{
+    text-decoration: none;
+    color: black;
     border: 1px solid grey;
     display: flex;
     flex-direction: row;

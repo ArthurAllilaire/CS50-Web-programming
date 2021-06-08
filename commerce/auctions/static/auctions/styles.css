@@ -3,6 +3,8 @@ body {
 }
 
 .listings-cont .listing-cont {
+  text-decoration: none;
+  color: black;
   border: 1px solid grey;
   display: -webkit-box;
   display: -ms-flexbox;

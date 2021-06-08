@@ -74,7 +74,7 @@ class ListingForm(ModelForm):
             "title": TextInput(),
             "description": Textarea()
         }
-        
+
 def new_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -85,3 +85,10 @@ def new_listing(request):
         return render(request, "auctions/new-listing.html", {
             "listingform": ListingForm()
         })
+
+def listing(request, listing_id):
+    print(listing_id)
+    listing_inst = Listing.objects.get(id=listing_id)
+    return render(request, "auctions/listing.html", {
+        "listing": listing_inst
+    })
