@@ -3,7 +3,7 @@
 {% block body %}
 {% if user.is_authenticated %}
   <h1>Create a new listing:</h1>
-  <form action="{% url "new-listing" %}" method="POST" class="listing-form">
+  <form action="{% url "new-listing" %}" method="POST" class="listing-form" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="user-container">
         {{listingform.user.label_tag}}

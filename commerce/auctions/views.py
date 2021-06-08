@@ -10,7 +10,9 @@ from .models import *
 
 
 def index(request):
-    return render(request, "auctions/index.html")
+    return render(request, "auctions/index.html", {
+        "listings": Listing.objects.all()
+    })
 
 
 def login_view(request):
@@ -72,6 +74,7 @@ class ListingForm(ModelForm):
             "title": TextInput(),
             "description": Textarea()
         }
+        
 def new_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)

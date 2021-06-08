@@ -15,7 +15,7 @@ class Listing(models.Model):
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     price = MoneyField(verbose_name="Starting bid in $:", max_digits=14, decimal_places=2, default_currency="USD")
-    image = models.ImageField(verbose_name="Product image", blank=True)
+    image = models.ImageField(upload_to="uploads/", verbose_name="Product image", blank=True)
     category = models.CharField(max_length=100, blank=True)
 
 class Comment(models.Model):
