@@ -67,14 +67,17 @@ def register(request):
 class ListingForm(ModelForm):
     class Meta:
         model = Listing
-        fields = ["title", "description", "price", "image", "category"]
+        fields = "__all__"
         widgets = {
             "title": TextInput(),
             "description": Textarea()
         }
 def new_listing(request):
     if request.method == "POST":
-        pass
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            new_listing = form.save()
+            return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/new-listing.html", {
             "listingform": ListingForm()

@@ -5,27 +5,30 @@
   <h1>Create a new listing:</h1>
   <form action="{% url "new-listing" %}" method="POST" class="listing-form">
     {% csrf_token %}
-    <input type="text" value="1" name="owner" hidden>
-      <div class="title-container">
-        {{listingform.title.label_tag}}
-        {{listingform.title}}
-      </div>
-      <div class="description-container">
-        {{listingform.description.label_tag}}
-        {{listingform.description}}
-      </div>
-      <div class="price-container">
-        {{listingform.price.label_tag}}
-        {{listingform.price}}
-      </div>
-      <div class="image-container">
-        {{listingform.image.label_tag}}
-        {{listingform.image}}
-      </div>
-      <div class="category-container">
-        {{listingform.category.label_tag}}
-        {{listingform.category}}
-      </div>
+    <div class="user-container">
+        {{listingform.user.label_tag}}
+        {{listingform.user}}
+    </div>
+    <div class="title-container">
+      {{listingform.title.label_tag}}
+      {{listingform.title}}
+    </div>
+    <div class="description-container">
+      {{listingform.description.label_tag}}
+      {{listingform.description}}
+    </div>
+    <div class="price-container">
+      {{listingform.price.label_tag}}
+      {{listingform.price}}
+    </div>
+    <div class="image-container">
+      {{listingform.image.label_tag}}
+      {{listingform.image}}
+    </div>
+    <div class="category-container">
+      {{listingform.category.label_tag}}
+      {{listingform.category}}
+    </div>
     <input type="submit" value="Create new listing">
   </form>
 {% else %}
