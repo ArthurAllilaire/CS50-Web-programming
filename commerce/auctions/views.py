@@ -1,10 +1,12 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
+from django.forms.widgets import TextInput, Textarea
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.forms import ModelForm
 
-from .models import User
+from .models import *
 
 
 def index(request):
@@ -61,3 +63,22 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
+
+class ListingForm(ModelForm):
+    class Meta:
+        model = Listing
+        fields = "__all__"
+        widgets = {
+            "title": TextInput(),
+            "description": Textarea()
+        }
+def new_listing(request):
+    if request.method == "POST":
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            new_listing = form.save()
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, "auctions/new-listing.html", {
+            "listingform": ListingForm()
+        })
