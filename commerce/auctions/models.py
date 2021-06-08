@@ -4,7 +4,6 @@ from django.db.models.deletion import CASCADE, SET_NULL
 
 from djmoney.models.fields import MoneyField
 
-
 class User(AbstractUser):
     pass
 
@@ -21,6 +20,10 @@ class Listing(models.Model):
 class Comment(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=CASCADE, related_name="author")
+
+class Watchlist(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name="watch_list"),
+    user = models.OneToOneField(User, on_delete=CASCADE, related_name="watcher", primary_key=True)
 
 class Bid(models.Model):
     listing = models.ForeignKey(Listing, on_delete=CASCADE, related_name="bids")

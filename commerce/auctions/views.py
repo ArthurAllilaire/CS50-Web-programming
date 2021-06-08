@@ -61,6 +61,9 @@ def register(request):
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
             })
+        #Create watchlist
+        watchlist = Watchlist(listing=Null, user=user)
+        watchlist.save()
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -89,6 +92,7 @@ def new_listing(request):
 def listing(request, listing_id):
     print(listing_id)
     listing_inst = Listing.objects.get(id=listing_id)
+    watchlist = Watchlist.objects.get(user=User)
     return render(request, "auctions/listing.html", {
         "listing": listing_inst
     })
