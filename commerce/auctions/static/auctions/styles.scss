@@ -1,0 +1,42 @@
+body{
+  padding: 10px;
+}
+
+// Stylings for Listing form 
+.listing-form{
+  display: grid;
+  grid-template: 
+    "Title"
+    "Description"
+    "Bid"
+    "Image"
+    "Category"/
+    auto;
+  gap: 10px;
+  @mixin flex-container() {
+    display: flex;
+    flex-direction: row;
+  }
+  .title-container{
+    @include flex-container;
+    label{
+      padding-right: 10px;
+    }
+    input{flex-grow: 1;}
+  }
+  .price-container{
+    @include flex-container;
+    width: 50%;
+    #id_price_1{
+      display: none;
+    }
+    label{
+      padding-right: 10px;
+    }
+  }
+  .description-container{
+    display: flex;
+    flex-direction: column;
+  }
+
+}

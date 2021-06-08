@@ -1,3 +1,60 @@
 body {
-    padding: 10px;
+  padding: 10px;
 }
+
+.listing-form {
+  display: -ms-grid;
+  display: grid;
+  grid-template: "Title" "Description" "Bid" "Image" "Category"/ auto;
+  gap: 10px;
+}
+
+.listing-form .title-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.listing-form .title-container label {
+  padding-right: 10px;
+}
+
+.listing-form .title-container input {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.listing-form .price-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  width: 50%;
+}
+
+.listing-form .price-container #id_price_1 {
+  display: none;
+}
+
+.listing-form .price-container label {
+  padding-right: 10px;
+}
+
+.listing-form .description-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+/*# sourceMappingURL=styles.css.map */
