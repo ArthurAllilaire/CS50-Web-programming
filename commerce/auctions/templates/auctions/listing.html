@@ -2,8 +2,17 @@
 
 {% block body %}
 <div class="listing-cont">
+    {% if user == listing.bidder and listing.active == False%}
+        <h1>Congratulations!! You are the winner of this auction.</h1>
+    {% endif %}
     <div class="title-watchlist-cont">
      {% if user.is_authenticated%}
+        {% if user == listing.user %}
+            <form action={% url 'listing' listing.id %} method="POST">
+                {% csrf_token %}
+                <input type="submit" name="action" value="Close">
+            </form>
+        {% endif %}
         <form action={% url 'user_watchlist' listing.id %} method="POST">
             {% csrf_token %}
             <input type="text" name="action" value={{action}} hidden>
@@ -33,19 +42,23 @@
         {% money_localize listing.price%}
         </strong>
     </div>
-    {% if user.is_authenticated%}
-    <div class="bid-form-cont">
-        <form action={% url "make-bid" listing.id%} method="post">
-            {% csrf_token %}
-            <label for="bidding">
-                <span class="label">Place bid: ($)</span>
-                {{bidding_form.price}}
-                <input type="submit" value="Place bid">
-            </label>
-        </form>
-    </div>
+    {% if listing.active == False %}
+        The listing is closed, you can no longer bid.
     {% else %}
-    Please sign in to place a bid.
+        {% if user.is_authenticated%}
+        <div class="bid-form-cont">
+            <form action={% url "make-bid" listing.id%} method="post">
+                {% csrf_token %}
+                <label for="bidding">
+                    <span class="label">Place bid: ($)</span>
+                    {{bidding_form.price}}
+                    <input type="submit" value="Place bid">
+                </label>
+            </form>
+        </div>
+        {% else %}
+        Please sign in to place a bid.
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}

@@ -22,12 +22,12 @@ class Listing(models.Model):
     # one to many relationship for user to listing
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name="owner")
-    winner = models.ForeignKey(
+    bidder = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=SET_NULL,
         null=True,
         blank=True,
-        related_name="winner"
+        related_name="bidder"
     )
     active = models.BooleanField(default=True)
     title = models.CharField(max_length=100)
