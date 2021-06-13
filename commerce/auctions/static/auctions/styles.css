@@ -203,4 +203,32 @@ body {
 .listing-cont .bid-form-cont .label {
   padding-right: 5px;
 }
+
+.listing-cont .comment-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.listing-cont .comment-cont .comment-form form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.listing-cont .comment-cont .comment-form form label[for="id_text"] {
+  margin-bottom: 0px;
+}
+
+.listing-cont .comment-cont .comment-form form #id_text {
+  margin-bottom: 5px;
+}
 /*# sourceMappingURL=styles.css.map */

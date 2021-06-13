@@ -56,7 +56,8 @@ class Comment(models.Model):
         Listing, on_delete=CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=CASCADE, related_name="author")
     text = models.CharField(
-        max_length=1000
+        max_length=1000, 
+        verbose_name="Comment:"
     )
 
 

@@ -121,4 +121,20 @@ body{
       padding-right: 5px;
     }
   }
+  .comment-cont{
+    display: flex;
+    flex-direction: column;
+    .comment-form{
+      form{
+        display: flex;
+        flex-direction: column;
+        label[for="id_text"]{
+          margin-bottom: 0px;
+        }
+        #id_text{
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
 }

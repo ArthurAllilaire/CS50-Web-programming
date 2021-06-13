@@ -95,6 +95,13 @@ class BiddingForm(ModelForm):
         model = Listing
         fields = ["price"]
 
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["text"]
+        widgets = {
+            "text": Textarea()
+        }
 
 def listing(request, listing_id):
     listing_inst = Listing.objects.get(id=listing_id)
@@ -123,11 +130,13 @@ def listing(request, listing_id):
             "watchlist_message": watchlist_message,
             "action": action,
             "bidding_form": BiddingForm(),
+            "comment_form": CommentForm()
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": listing_inst,
             "bidding_form": BiddingForm(),
+            "comment_form": CommentForm()
         })  
 
 def watch_list(request, listing_id):
@@ -167,3 +176,12 @@ def make_bid(request, listing_id):
         return render(request, "auctions/new-listing.html", {
             "listingform": ListingForm()
         })
+
+def make_comment(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        user = request.user
+        comment = Comment(listing=listing, user=user)
+        form = CommentForm(request.POST, instance=comment)
+        form.save()
+        return HttpResponseRedirect(reverse("listing", args=[listing_id]))

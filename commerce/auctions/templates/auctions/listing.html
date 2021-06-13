@@ -64,5 +64,21 @@
         Please sign in to place a bid.
         {% endif %}
     {% endif %}
+    <div class="comment-cont">
+        {% if user.is_authenticated %}
+            <div class="comment-form">
+                <form action={% url "make-comment" listing.id %} method="post">
+                    {% csrf_token %}
+                    {{comment_form}}
+                    <input type="submit" value="Post Comment">
+                </form>
+            </div>
+        {% else %}
+        Please sign in to place a bid.
+        {% endif %}
+        <div class="comments">
+            
+        </div>
+    </div>
 </div>
 {% endblock %}
