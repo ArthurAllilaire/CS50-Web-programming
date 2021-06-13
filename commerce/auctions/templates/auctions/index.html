@@ -5,7 +5,7 @@
     <div class="listings-cont">
     
         {% for listing in listings%}
-        <a href={% url "listing" listing.id %} class="listing-cont">
+        <a href={% url "listing" listing.id %} class="listing-item-cont">
             {% if listing.image%}
                 <div class="image-cont">
                     <img src="media/{{listing.image}}" alt="Photograph of product">

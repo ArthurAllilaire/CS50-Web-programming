@@ -1,5 +1,48 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h1>works</h1>
+<div class="listing-cont">
+    <div class="title-watchlist-cont">
+     {% if user.is_authenticated%}
+        <form action={% url 'user_watchlist' listing.id %} method="POST">
+            {% csrf_token %}
+            <input type="text" name="action" value={{action}} hidden>
+            <input type="submit" value={{watchlist_message}}>
+        </form>
+     {% else %}
+        <div class="no-watchlist-mes">Please sign in to add this to your watchlist.</div>
+     {% endif %}
+        <h2 class="title">{{listing.title}}</h2>
+    </div>    
+    <div class="category-cont">
+        <strong>Category:</strong>
+        {{listing.category}}
+    </div>
+    {% if listing.image %}
+        <div class="image-cont">
+            <img src="media/{{listing.image}}" alt="Product image">
+        </div>
+    {% endif %}
+    <div class="description_cont">
+        {{listing.description}}
+    </div>
+    <div class="price">
+        <strong>
+        {% load djmoney %}
+        Price: 
+        {% money_localize listing.price%}
+        </strong>
+    </div>
+    <div class="error-message">{{error_message}}</div>
+    <div class="bid-form-cont">
+        <form action={% url "make-bid" listing.id%} method="post">
+            {% csrf_token %}
+            <label for="bidding">
+                <span class="label">Place bid: ($)</span>
+                {{bidding_form.price}}
+                <input type="submit" value="Place bid">
+            </label>
+        </form>
+    </div>
+</div>
 {% endblock %}

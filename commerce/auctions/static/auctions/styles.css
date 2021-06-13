@@ -1,8 +1,8 @@
 body {
-  padding: 10px;
+  padding: 5px;
 }
 
-.listings-cont .listing-cont {
+.listings-cont .listing-item-cont {
   text-decoration: none;
   color: black;
   border: 1px solid grey;
@@ -105,5 +105,88 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+
+.listing-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.listing-cont .title-watchlist-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.listing-cont .title-watchlist-cont .title {
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
+  margin-bottom: 0px;
+}
+
+.listing-cont .no-watchlist-mes {
+  font-size: small;
+  max-width: 40vw;
+}
+
+.listing-cont .image-cont {
+  width: 100vw;
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.listing-cont .image-cont img {
+  width: 100%;
+  max-width: 600px;
+}
+
+.listing-cont .price {
+  font-size: large;
+}
+
+.listing-cont .bid-form-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+}
+
+.listing-cont .bid-form-cont #id_price_1 {
+  display: none;
+}
+
+.listing-cont .bid-form-cont .label {
+  padding-right: 5px;
 }
 /*# sourceMappingURL=styles.css.map */

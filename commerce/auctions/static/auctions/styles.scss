@@ -1,9 +1,9 @@
 body{
-  padding: 10px;
+  padding: 5px;
 }
 //Stylings for home listings form
 .listings-cont{
-  .listing-cont{
+  .listing-item-cont{
     text-decoration: none;
     color: black;
     border: 1px solid grey;
@@ -68,4 +68,50 @@ body{
     flex-direction: column;
   }
 
+}
+
+// Styles for listing.html
+.listing-cont{
+  display: flex;
+  flex-direction: column;
+  .title-watchlist-cont{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .title{
+      order: -1;
+      margin-bottom: 0px;
+    }
+  }
+  .no-watchlist-mes{
+    font-size: small;
+    max-width: 40vw;
+  }
+  .image-cont{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    img{
+      width: 100%;
+      max-width: 600px;
+
+    }
+  }
+  .price{
+    font-size: large;
+  }
+  .bid-form-cont{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    #id_price_1{
+      display: none;
+    }
+    .label{
+      padding-right: 5px;
+    }
+  }
 }
