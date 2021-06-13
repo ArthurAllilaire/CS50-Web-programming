@@ -231,4 +231,21 @@ body {
 .listing-cont .comment-cont .comment-form form #id_text {
   margin-bottom: 5px;
 }
+
+.listing-cont .comment-cont .comments {
+  padding-top: 10px;
+}
+
+.listing-cont .comment-cont .comments .comment-cont {
+  border: 1px solid gray;
+  margin-bottom: 10px;
+}
+
+.listing-cont .comment-cont .comments .comment-cont .text, .listing-cont .comment-cont .comments .comment-cont .user {
+  padding-left: 5px;
+}
+
+.listing-cont .comment-cont .comments .comment-cont .text {
+  font-family: sans-serif;
+}
 /*# sourceMappingURL=styles.css.map */

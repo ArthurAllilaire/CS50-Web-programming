@@ -136,5 +136,18 @@ body{
         }
       }
     }
+    .comments{
+      padding-top: 10px;
+      .comment-cont{
+        border: 1px solid gray;
+        margin-bottom: 10px;
+        .text, .user{
+          padding-left: 5px;
+        }
+        .text{
+          font-family: sans-serif;
+        }
+      }
+    }
   }
 }

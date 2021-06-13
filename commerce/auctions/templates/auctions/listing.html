@@ -77,7 +77,18 @@
         Please sign in to place a bid.
         {% endif %}
         <div class="comments">
-            
+        {% if comments %}
+            <h5>Comments:</h5>
+            {% for comment in comments%}
+                <div class="comment-cont">
+                    <div class="user">
+                    <strong>User: </strong>{{comment.user}}</div>
+                    <div class="text"><strong>Comment: </strong>{{comment.text}}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h5>There are no comments for this listing</h5>
+        {% endif %}
         </div>
     </div>
 </div>

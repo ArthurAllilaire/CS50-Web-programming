@@ -130,13 +130,15 @@ def listing(request, listing_id):
             "watchlist_message": watchlist_message,
             "action": action,
             "bidding_form": BiddingForm(),
-            "comment_form": CommentForm()
+            "comment_form": CommentForm(),
+            "comments": listing_inst.comments.all()
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": listing_inst,
             "bidding_form": BiddingForm(),
-            "comment_form": CommentForm()
+            "comment_form": CommentForm(),
+            "comments": listing_inst.comments.all()
         })  
 
 def watch_list(request, listing_id):
