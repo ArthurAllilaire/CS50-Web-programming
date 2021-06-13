@@ -83,6 +83,13 @@ body{
       order: -1;
       margin-bottom: 0px;
     }
+    .title-buttons{
+      display: flex;
+      flex-direction: row;
+      .close-button{
+        padding-right: 10px;
+      }
+    }
   }
   .no-watchlist-mes{
     font-size: small;

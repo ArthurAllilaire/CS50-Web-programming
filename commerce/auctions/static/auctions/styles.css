@@ -140,6 +140,20 @@ body {
   margin-bottom: 0px;
 }
 
+.listing-cont .title-watchlist-cont .title-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.listing-cont .title-watchlist-cont .title-buttons .close-button {
+  padding-right: 10px;
+}
+
 .listing-cont .no-watchlist-mes {
   font-size: small;
   max-width: 40vw;

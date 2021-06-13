@@ -7,17 +7,21 @@
     {% endif %}
     <div class="title-watchlist-cont">
      {% if user.is_authenticated%}
-        {% if user == listing.user %}
-            <form action={% url 'listing' listing.id %} method="POST">
+        <div class="title-buttons">
+            {% if user == listing.user %}
+                <div class="close-button">
+                    <form action={% url 'listing' listing.id %} method="POST">
+                        {% csrf_token %}
+                        <input type="submit" name="action" value="Close">
+                    </form>
+                </div>
+            {% endif %}
+            <form action={% url 'user_watchlist' listing.id %} method="POST">
                 {% csrf_token %}
-                <input type="submit" name="action" value="Close">
+                <input type="text" name="action" value={{action}} hidden>
+                <input type="submit" value={{watchlist_message}}>
             </form>
-        {% endif %}
-        <form action={% url 'user_watchlist' listing.id %} method="POST">
-            {% csrf_token %}
-            <input type="text" name="action" value={{action}} hidden>
-            <input type="submit" value={{watchlist_message}}>
-        </form>
+        </div>
      {% else %}
         <div class="no-watchlist-mes">Please sign in to add this to your watchlist.</div>
      {% endif %}
