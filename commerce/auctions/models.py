@@ -22,6 +22,14 @@ class Listing(models.Model):
     # one to many relationship for user to listing
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=CASCADE, related_name="owner")
+    winner = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=SET_NULL,
+        null=True,
+        blank=True,
+        related_name="winner"
+    )
+    active = models.BooleanField(default=True)
     title = models.CharField(max_length=100)
     description = models.CharField(max_length=1000)
     price = MoneyField(
@@ -47,6 +55,9 @@ class Comment(models.Model):
     listing = models.ForeignKey(
         Listing, on_delete=CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=CASCADE, related_name="author")
+    text = models.CharField(
+        max_length=1000
+    )
 
 
 # class Watchlist(models.Model):

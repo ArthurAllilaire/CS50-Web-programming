@@ -106,7 +106,7 @@ class BiddingForm(ModelForm):
         fields = ["price"]
 
 
-def listing(request, listing_id, errors):
+def listing(request, listing_id):
     listing_inst = Listing.objects.get(id=listing_id)
     #Check if model user is signed in:
     if request.user.is_authenticated:
@@ -125,12 +125,12 @@ def listing(request, listing_id, errors):
             "listing": listing_inst,
             "watchlist_message": watchlist_message,
             "action": action,
-            "bidding_form": BiddingForm()
+            "bidding_form": BiddingForm(),
         })
     else:
         return render(request, "auctions/listing.html", {
             "listing": listing_inst,
-            "bidding_form": BiddingForm()
+            "bidding_form": BiddingForm(),
         })  
 
 def watch_list(request, listing_id):
@@ -163,8 +163,7 @@ def make_bid(request, listing_id):
             return HttpResponseRedirect(reverse("listing", args=[listing_id]))
         #If form is not valid
         else:
-            return HttpResponseRedirect(reverse("listing", args=[listing_id, "Bid needs to be higher than current price."]))
-        
+            return HttpResponse("Bid must be higher than current price.")
         
     else:
         return render(request, "auctions/new-listing.html", {

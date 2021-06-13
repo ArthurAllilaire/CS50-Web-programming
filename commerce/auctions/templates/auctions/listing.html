@@ -33,7 +33,7 @@
         {% money_localize listing.price%}
         </strong>
     </div>
-    <div class="error-message">{{error_message}}</div>
+    {% if user.is_authenticated%}
     <div class="bid-form-cont">
         <form action={% url "make-bid" listing.id%} method="post">
             {% csrf_token %}
@@ -44,5 +44,8 @@
             </label>
         </form>
     </div>
+    {% else %}
+    Please sign in to place a bid.
+    {% endif %}
 </div>
 {% endblock %}
