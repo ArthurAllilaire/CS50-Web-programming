@@ -86,7 +86,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: row;
           flex-direction: row;
-  width: 50%;
 }
 
 .listing-form .price-container #id_price_1 {
@@ -95,6 +94,10 @@ body {
 
 .listing-form .price-container label {
   padding-right: 10px;
+}
+
+.listing-form .price-container input {
+  max-width: 150px;
 }
 
 .listing-form .description-container {

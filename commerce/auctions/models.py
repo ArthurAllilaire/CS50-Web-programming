@@ -46,22 +46,24 @@ class Listing(models.Model):
         blank=True,
         null=True, 
         related_name="listings")
-    category_text = models.CharField(max_length=100, blank=True)
+    category_text = models.CharField(max_length=100, blank=True, null=True, verbose_name="Category")
 
     def __str__(self):
         return f"{self.title}"
 
     def save(self, *args, **kwargs):
-        category_inst = Category.objects.filter(
-            name=self.category_text
-        )
-        #If the category does not already exist create it
-        if not category_inst:
-            #Create and save category based on category_text.
-            category_inst = Category.objects.create(name=self.category_text)
-        
-        #Add the category to the listing
-        self.category = category_inst
+        #If a category was defined
+        if self.category_text:
+            category_inst = Category.objects.filter(
+                name=self.category_text
+            )
+            #If the category does not already exist create it
+            if not category_inst:
+                #Create and save category based on category_text.
+                category_inst = Category.objects.create(name=self.category_text)
+            
+            #Add the category to the listing
+            self.category = category_inst
         
         #Save the modified listing to the database.
         super().save(*args, **kwargs)  # Call the "real" save() method.

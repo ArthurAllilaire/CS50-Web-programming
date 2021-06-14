@@ -4,7 +4,7 @@ from djmoney.money import Money
 from decimal import Decimal
 
 # Create your tests here.
-from .models import User, Listing, Comment
+from .models import Category, User, Listing, Comment
 
 def create_test_user(id = ""):
   """
@@ -15,13 +15,13 @@ def create_test_user(id = ""):
   password = "password1"
   return User.objects.create_user(username, email, password)
 
-def create_listing(user, title, description, price, currency="USD"):
+def create_listing(user, title, description, price, currency="USD", category_text=None):
   """
   Args:
     price: str of a number, converted into money instance.
     currency: Default is USD, change if needed.
   """
-  return Listing.objects.create(user=user, title=title, description=description, price=Money(Decimal(price), currency))
+  return Listing.objects.create(user=user, title=title, description=description, price=Money(Decimal(price), currency), category_text=category_text)
 
 def create_comment(user, listing, text):
   """
@@ -93,4 +93,14 @@ class WatchlistView(TestCase):
 class CategoriesView(TestCase):
   def setUp(self):
     self.client = Client()
-  
+  def test_category_context(self):
+    user = create_test_user()
+    user1 = create_test_user("1")
+    listing1 = create_listing(
+      user1, "Title1", "description1", "100",category_text="Electronics"
+    )
+    response = self.client.get(reverse('categories'))
+    self.assertQuerysetEqual(
+      response.context['categories'],
+      Category.objects.all()
+    )

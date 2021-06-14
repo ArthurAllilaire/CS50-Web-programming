@@ -55,12 +55,16 @@ body{
   }
   .price-container{
     @include flex-container;
-    width: 50%;
+    //width: 70%;
+    //max-height: 30px;
     #id_price_1{
       display: none;
     }
     label{
       padding-right: 10px;
+    }
+    input{
+      max-width: 150px;
     }
   }
   .description-container{
