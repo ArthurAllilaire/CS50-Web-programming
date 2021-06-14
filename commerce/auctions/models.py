@@ -12,6 +12,7 @@ from django.db.models.deletion import CASCADE, SET_NULL
 
 from djmoney.models.fields import MoneyField
 
+
 class User(AbstractUser):
     watchlist = models.ManyToManyField(
         "Listing", blank=True, related_name="watchers")
@@ -37,18 +38,38 @@ class Listing(models.Model):
         max_digits=14, decimal_places=2, default_currency="USD")
     image = models.ImageField(upload_to="uploads/",
                               verbose_name="Product image", blank=True)
-    CATEGORY_CHOICES = [
-        ("Pets", "Pets"),
-        ("Furniture", "Furniture"),
-        ("Cars", "Cars"),
-        ("Human Parts", "Human Parts"),
-        ("Houses", "Houses")
-    ]
-    category = models.CharField(
-        max_length=100, blank=True, choices=CATEGORY_CHOICES)
+    # I want to input some text into the category field. Then check if the category exists, if it does assign that as a foreign key, otherwise create it and assign it as a foreignkey, want the form to just have to input text and the rest be done in the backend.
+    category = models.ForeignKey(
+        "Category",
+        on_delete=SET_NULL,
+        max_length=100,
+        blank=True,
+        null=True, 
+        related_name="listings")
+    category_text = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return f"{self.title}"
+
+    def save(self, *args, **kwargs):
+        category_inst = Category.objects.filter(
+            name=self.category_text
+        )
+        #If the category does not already exist create it
+        if not category_inst:
+            #Create and save category based on category_text.
+            category_inst = Category.objects.create(name=self.category_text)
+        
+        #Add the category to the listing
+        self.category = category_inst
+        
+        #Save the modified listing to the database.
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
 
 
 class Comment(models.Model):
@@ -56,7 +77,7 @@ class Comment(models.Model):
         Listing, on_delete=CASCADE, related_name="comments")
     user = models.ForeignKey(User, on_delete=CASCADE, related_name="author")
     text = models.CharField(
-        max_length=1000, 
+        max_length=1000,
         verbose_name="Comment:"
     )
 

@@ -89,3 +89,8 @@ class WatchlistView(TestCase):
       response.context['watchlist'],
       user.watchlist.all()
     )
+
+class CategoriesView(TestCase):
+  def setUp(self):
+    self.client = Client()
+  
