@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.forms import ModelForm
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -78,6 +79,7 @@ class ListingForm(ModelForm):
             "description": Textarea()
         }
 
+@login_required(login_url='/login')
 def new_listing(request):
     if request.method == "POST":
         form = ListingForm(request.POST)
@@ -141,7 +143,8 @@ def listing(request, listing_id):
             "comments": listing_inst.comments.all()
         })  
 
-def watch_list(request, listing_id):
+@login_required(login_url='/login')
+def add_to_watch_list(request, listing_id):
     if request.method == 'POST':
         action = request.POST["action"]
         listing = Listing.objects.get(pk=listing_id)
@@ -155,6 +158,7 @@ def watch_list(request, listing_id):
             user.watchlist.remove(listing)
             return HttpResponseRedirect(reverse("listing", args=[listing.id]))
 
+@login_required(login_url='/login')
 def make_bid(request, listing_id):
     if request.method == "POST":
         #Get instance
@@ -179,6 +183,7 @@ def make_bid(request, listing_id):
             "listingform": ListingForm()
         })
 
+@login_required(login_url='/login')
 def make_comment(request, listing_id):
     if request.method == "POST":
         listing = Listing.objects.get(pk=listing_id)
@@ -187,3 +192,11 @@ def make_comment(request, listing_id):
         form = CommentForm(request.POST, instance=comment)
         form.save()
         return HttpResponseRedirect(reverse("listing", args=[listing_id]))
+
+@login_required(login_url='/login')
+def watch_list(request):
+    user = request.user
+    user.watchlist.all()
+
+def categories(request):
+    return HttpResponse("Categories")

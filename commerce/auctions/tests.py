@@ -1,4 +1,5 @@
-from django.test import TestCase
+from django.test import TestCase, Client
+from django.urls.base import reverse
 from djmoney.money import Money
 from decimal import Decimal
 
@@ -61,3 +62,30 @@ class CommentModelTests(TestCase):
     )
     comment1 = create_comment(user, listing1, "comment1")
     self.assertQuerysetEqual(listing1.comments.all(), Comment.objects.all())
+
+class WatchlistView(TestCase):
+  def setUp(self):
+    self.client = Client()
+
+  def test_no_listings_in_watchlist(self):
+    user = create_test_user()
+    self.client.force_login(user)
+    response = self.client.get(reverse('user-watchlist'))
+    self.assertEqual(response.status_code, 200)
+    self.assertContains(response, "You are not watching any listings.")
+    self.assertQuerysetEqual(response.context['watchlist'], [])
+  
+  def test_watchlist_with_listings(self):
+    user = create_test_user()
+    user1 = create_test_user("1")
+    listing1 = create_listing(
+      user1, "Title1", "description1", "100" 
+    )
+    user.watchlist.add(listing1)
+    self.client.force_login(user)
+
+    response = self.client.get(reverse('user-watchlist'))
+    self.assertQuerysetEqual(
+      response.context['watchlist'],
+      [user.watchlist.all()]
+    )
