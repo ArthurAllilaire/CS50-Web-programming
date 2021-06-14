@@ -201,4 +201,19 @@ def watch_list(request):
     })
 
 def categories(request):
-    return HttpResponse("Categories")
+    categories = Category.objects.filter(
+        listings__active = True
+    )
+    return render(request, "auctions/categories.html",{
+        "categories": categories
+    })
+    
+def category(request, category):
+    category_inst = Category.objects.get(name=category)
+    listings = category_inst.listings.filter(
+        active = True
+    )
+    return render(request, "auctions/category.html",{
+        "listings": listings,
+        "name": category_inst.name
+    })

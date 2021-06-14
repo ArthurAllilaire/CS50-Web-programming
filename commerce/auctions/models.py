@@ -64,7 +64,6 @@ class Listing(models.Model):
             
             #Add the category to the listing
             self.category = category_inst
-        
         #Save the modified listing to the database.
         super().save(*args, **kwargs)  # Call the "real" save() method.
 
