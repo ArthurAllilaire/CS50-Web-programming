@@ -15,7 +15,9 @@ from .models import *
 
 def index(request):
     return render(request, "auctions/index.html", {
-        "listings": Listing.objects.all()
+        "listings": Listing.objects.filter(
+            active=True
+        )
     })
 
 
@@ -74,6 +76,7 @@ class ListingForm(ModelForm):
     class Meta:
         model = Listing
         fields = "__all__"
+        exclude = ("active",)
         widgets = {
             "title": TextInput(),
             "description": Textarea()

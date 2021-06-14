@@ -62,8 +62,11 @@ class Listing(models.Model):
                 #Create and save category based on category_text.
                 category_inst = Category.objects.create(name=self.category_text)
             
-            #Add the category to the listing
-            self.category = category_inst
+                #Add the category to the listing
+                self.category = category_inst
+            else:
+                #Add the category to the listing
+                self.category = category_inst[0]
         #Save the modified listing to the database.
         super().save(*args, **kwargs)  # Call the "real" save() method.
 
