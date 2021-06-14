@@ -72,7 +72,7 @@ class WatchlistView(TestCase):
     self.client.force_login(user)
     response = self.client.get(reverse('user-watchlist'))
     self.assertEqual(response.status_code, 200)
-    self.assertContains(response, "You are not watching any listings.")
+    self.assertContains(response, "You are currently not watching any listings.")
     self.assertQuerysetEqual(response.context['watchlist'], [])
   
   def test_watchlist_with_listings(self):
@@ -87,5 +87,5 @@ class WatchlistView(TestCase):
     response = self.client.get(reverse('user-watchlist'))
     self.assertQuerysetEqual(
       response.context['watchlist'],
-      [user.watchlist.all()]
+      user.watchlist.all()
     )

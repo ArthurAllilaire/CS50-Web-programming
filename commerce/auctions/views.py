@@ -196,7 +196,9 @@ def make_comment(request, listing_id):
 @login_required(login_url='/login')
 def watch_list(request):
     user = request.user
-    user.watchlist.all()
+    return render(request, "auctions/watchlist.html",{
+        "watchlist": user.watchlist.all()
+    })
 
 def categories(request):
     return HttpResponse("Categories")
