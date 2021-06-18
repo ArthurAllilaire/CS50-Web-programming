@@ -22,7 +22,7 @@ function compose_email() {
 	//Add submit function for form
 	document.querySelector('#compose-form').onsubmit = sendEmail;
 
-  //Submit function - sends email
+	//Submit function - sends email
 	function sendEmail(event) {
 		console.log('Sent email');
 		fetch('/emails', {
@@ -38,9 +38,9 @@ function compose_email() {
 				// Print result
 				console.log(result);
 			});
-    //Load sent mailbox
+		//Load sent mailbox
 		document.getElementById('sent').click();
-    return false;
+		return false;
 	}
 }
 
@@ -53,10 +53,32 @@ function load_mailbox(mailbox) {
 	// Show the mailbox name
 	document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
-	fetch(`/emails/${mailbox}`).then((response) => response.json()).then((emails) => {
+	fetch(`/emails/${mailbox}`).then((response) => response.json()).then(createEmailTable);
+
+	function createEmailTable(emails) {
 		// Print emails
 		console.log(emails);
+		const table = document.createElement('table');
+		//Create a table with headings
+		let thead = table.createTHead();
+		let row = thead.insertRow();
+		for (let header of [ 'Sender', 'Subject', 'Timestamp' ]) {
+			let th = document.createElement('th');
+			th.innerHTML = header;
+			row.appendChild(th);
+		}
 
-		// ... do something else with emails ...
-	});
+		//Populate rows of table
+		for (let email of emails) {
+			let row = table.insertRow();
+			for (let key of [ 'sender', 'subject', 'timestamp' ]) {
+				let cell = row.insertCell();
+				let text = document.createTextNode(email[key]);
+				cell.appendChild(text);
+			}
+		}
+		//Add table to emails view
+		document.querySelector('#emails-view').appendChild(table);
+		console.log('Added the table');
+	}
 }
