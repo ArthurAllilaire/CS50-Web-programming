@@ -101,7 +101,7 @@ function load_email() {
 	// Show the email-display-view and hide other views
 	document.querySelector('#emails-view').style.display = 'none';
 	document.querySelector('#compose-view').style.display = 'none';
-	document.querySelector('#email-display-view').style.display = 'block';
+	document.querySelector('#email-display-view').style.display = 'grid';
 
 	//Get rid of any leftover innerHTML
 	document.querySelector('#email-display-view').innerHTML = '';
@@ -179,10 +179,10 @@ function load_email() {
 	let boundArchive = reverseArchiveEmail.bind(this.email);
 	if (this.email.archived) {
 		//If archived add button to unarchive
-		archiveButton = createButton('Unarchive', 'archive-button btn', boundArchive);
+		archiveButton = createButton('Unarchive', 'btn btn-sm btn-outline-primary', boundArchive);
 	} else {
 		//else add button to archive
-		archiveButton = createButton('Archive', 'archive-button btn', boundArchive);
+		archiveButton = createButton('Archive', 'btn btn-sm btn-outline-primary', boundArchive);
 	}
 	//Add archive button to buttonCont
 	buttonCont.appendChild(archiveButton);
@@ -214,7 +214,7 @@ function load_email() {
 	}
 	let boundEmail = replyToEmail.bind(this.email);
 	//Create reply button
-	replyButton = createButton('Reply', 'btn', boundEmail);
+	replyButton = createButton('Reply', 'btn btn-sm btn-outline-primary', boundEmail);
 
 	//Add archive button to buttonCont
 	buttonCont.appendChild(replyButton);

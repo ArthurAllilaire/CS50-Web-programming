@@ -22,4 +22,26 @@ textarea {
 #emails-view table .read {
   background-color: #eceaea;
 }
+
+#email-display-view {
+  display: -ms-grid;
+  display: grid;
+  grid-template: "info buttons" "body body"/ 1fr auto;
+}
+
+#email-display-view .info-cont {
+  grid-area: info;
+}
+
+#email-display-view .body-cont {
+  grid-area: body;
+}
+
+#email-display-view .button-cont {
+  grid-area: buttons;
+}
+
+#email-display-view .button-cont .btn {
+  margin-right: 10px;
+}
 /*# sourceMappingURL=styles.css.map */

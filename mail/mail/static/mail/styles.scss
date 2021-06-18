@@ -21,3 +21,24 @@ textarea {
     }
   }
 }
+
+#email-display-view{
+  display: grid;
+  grid-template: 
+    "info buttons"
+    "body body"/
+    1fr auto;
+
+  .info-cont{
+    grid-area: info;
+  }
+  .body-cont{
+    grid-area: body;
+  }
+  .button-cont{
+    grid-area: buttons;
+    .btn{
+      margin-right: 10px;
+    }
+  }
+}
