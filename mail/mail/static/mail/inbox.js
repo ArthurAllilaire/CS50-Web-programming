@@ -103,8 +103,8 @@ function load_email() {
 	document.querySelector('#compose-view').style.display = 'none';
 	document.querySelector('#email-display-view').style.display = 'block';
 
-  //Get rid of any leftover innerHTML
-  document.querySelector('#email-display-view').innerHTML = '';
+	//Get rid of any leftover innerHTML
+	document.querySelector('#email-display-view').innerHTML = '';
 
 	//Create email info container
 	let emailInfo = document.createElement('div');
@@ -112,6 +112,9 @@ function load_email() {
 	//Create email body container
 	let emailBody = document.createElement('div');
 	emailBody.classList.add('body-cont');
+	//Create buttons container
+	let buttonCont = document.createElement('div');
+	buttonCont.classList.add('button-cont');
 
 	//create sender info
 	//TODO make this into a function (repeat myself too much)
@@ -136,8 +139,63 @@ function load_email() {
 	//Add body content
 	emailBody.innerHTML = this.email['body'];
 
-	//Add emailInfo and emailBody to the DOM
-	document.querySelector('#email-display-view').append(emailInfo, emailBody);
+	function createButton(text, className = '', onClick = null) {
+		/* 
+      Args: 
+        text (str) used as name of button
+        className (str) classname of button (defaults to "")
+        onclick (function) used for onclick function defaults to none
+
+      returns: 
+        Button element
+    */
+		const button = document.createElement('button');
+		if (className) {
+			button.className = className;
+		}
+		button.innerHTML = text;
+		button.addEventListener('click', onClick);
+		return button;
+	}
+	function reverseArchiveEmail() {
+		/* 
+      Changes the archive boolean value of email to opposite of what it currently is
+      Args:
+        context: this should be an email object
+
+      Sends a put request and archives the email
+      Then loads user's inbox
+    */
+		fetch(`/emails/${this.id}`, {
+			method: 'PUT',
+			body: JSON.stringify({
+				archived: !this.archived
+			})
+		});
+
+		//Load the user's inbox
+		load_mailbox('inbox');
+	}
+	//Create bound reverseArchiveEmail
+	let boundArchive = reverseArchiveEmail.bind(this.email);
+	if (this.email.archived) {
+		//If archived add button to unarchive
+		archiveButton = createButton('Unarchive', 'archive-button', boundArchive);
+	} else {
+		//else add button to archive
+		archiveButton = createButton('Archive', 'archive-button', boundArchive);
+	}
+	//Add archive button to buttonCont
+	buttonCont.appendChild(archiveButton);
+
+	//Create reply button
+	replyButton = createButton('Reply');
+
+	//Add archive button to buttonCont
+	buttonCont.appendChild(replyButton);
+
+	//Add emailInfo, buttonCont and emailBody to the DOM
+	document.querySelector('#email-display-view').append(emailInfo, emailBody, buttonCont);
 
 	//Update the email to read
 	fetch(`/emails/${this.email.id}`, {
