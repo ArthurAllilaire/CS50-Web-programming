@@ -117,7 +117,6 @@ function load_email() {
 	buttonCont.classList.add('button-cont');
 
 	//create sender info
-	//TODO make this into a function (repeat myself too much)
 	let sender = document.createElement('h6');
 	sender.classList.add('sender');
 	sender.innerHTML = `Sender: ${this.email.sender}`;
@@ -180,16 +179,42 @@ function load_email() {
 	let boundArchive = reverseArchiveEmail.bind(this.email);
 	if (this.email.archived) {
 		//If archived add button to unarchive
-		archiveButton = createButton('Unarchive', 'archive-button', boundArchive);
+		archiveButton = createButton('Unarchive', 'archive-button btn', boundArchive);
 	} else {
 		//else add button to archive
-		archiveButton = createButton('Archive', 'archive-button', boundArchive);
+		archiveButton = createButton('Archive', 'archive-button btn', boundArchive);
 	}
 	//Add archive button to buttonCont
 	buttonCont.appendChild(archiveButton);
 
+	function replyToEmail() {
+		/* 
+      loads the email composition form and prefills certain boxes
+      Args:
+        context: this should be an email object
+
+      returns: undefined
+
+    */
+		//Display the compose email div
+		compose_email();
+		console.log(this);
+		//Fill in fields
+		document.querySelector('#compose-recipients').value = this.recipients.join(' ');
+
+		//Format subject
+		if (this.subject.slice(0, 3) !== 'Re:') {
+			//Add "Re:" if it doesn't already exist
+			subject = `Re: ${this.subject}`;
+		} else {
+			subject = this.subject;
+		}
+		document.querySelector('#compose-subject').value = subject;
+		document.querySelector('#compose-body').value = `On ${this.timestamp} ${this.sender} wrote: \n ${this.body}`;
+	}
+	let boundEmail = replyToEmail.bind(this.email);
 	//Create reply button
-	replyButton = createButton('Reply');
+	replyButton = createButton('Reply', 'btn', boundEmail);
 
 	//Add archive button to buttonCont
 	buttonCont.appendChild(replyButton);
