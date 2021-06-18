@@ -1,3 +1,25 @@
 textarea {
-    min-height: 400px;
+  min-height: 400px;
 }
+
+#emails-view table {
+  width: 100%;
+}
+
+#emails-view table tbody tr {
+  cursor: pointer;
+}
+
+#emails-view table tr {
+  border: 1px solid black;
+  line-height: 1.5em;
+}
+
+#emails-view table td, #emails-view table th {
+  padding-left: 5px;
+}
+
+#emails-view table .read {
+  background-color: #eceaea;
+}
+/*# sourceMappingURL=styles.css.map */

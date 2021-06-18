@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function compose_email() {
 	// Show compose view and hide other views
 	document.querySelector('#emails-view').style.display = 'none';
+	document.querySelector('#email-display-view').style.display = 'none';
 	document.querySelector('#compose-view').style.display = 'block';
 
 	// Clear out composition fields
@@ -49,6 +50,7 @@ function load_mailbox(mailbox) {
 	// Show the mailbox and hide other views
 	document.querySelector('#emails-view').style.display = 'block';
 	document.querySelector('#compose-view').style.display = 'none';
+	document.querySelector('#email-display-view').style.display = 'none';
 
 	// Show the mailbox name
 	document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
@@ -58,27 +60,90 @@ function load_mailbox(mailbox) {
 	function createEmailTable(emails) {
 		// Print emails
 		console.log(emails);
-		const table = document.createElement('table');
+
 		//Create a table with headings
+		const table = document.createElement('table');
 		let thead = table.createTHead();
-		let row = thead.insertRow();
+		let tbody = table.createTBody();
+
+		let headerRow = thead.insertRow();
 		for (let header of [ 'Sender', 'Subject', 'Timestamp' ]) {
 			let th = document.createElement('th');
 			th.innerHTML = header;
-			row.appendChild(th);
+			headerRow.appendChild(th);
 		}
 
 		//Populate rows of table
 		for (let email of emails) {
-			let row = table.insertRow();
+			let row = tbody.insertRow();
 			for (let key of [ 'sender', 'subject', 'timestamp' ]) {
 				let cell = row.insertCell();
 				let text = document.createTextNode(email[key]);
 				cell.appendChild(text);
 			}
+			//If this email has been read
+			if (email.read) {
+				row.classList.add('read');
+			}
+
+			//Bound function that passes the email object to load_email_view
+
+			//Add an onclick function to load_email_view
+			row.addEventListener('click', load_email.bind({ email }));
 		}
 		//Add table to emails view
 		document.querySelector('#emails-view').appendChild(table);
 		console.log('Added the table');
 	}
+}
+
+function load_email() {
+	// Show the email-display-view and hide other views
+	document.querySelector('#emails-view').style.display = 'none';
+	document.querySelector('#compose-view').style.display = 'none';
+	document.querySelector('#email-display-view').style.display = 'block';
+
+  //Get rid of any leftover innerHTML
+  document.querySelector('#email-display-view').innerHTML = '';
+
+	//Create email info container
+	let emailInfo = document.createElement('div');
+	emailInfo.classList.add('info-cont');
+	//Create email body container
+	let emailBody = document.createElement('div');
+	emailBody.classList.add('body-cont');
+
+	//create sender info
+	//TODO make this into a function (repeat myself too much)
+	let sender = document.createElement('h6');
+	sender.classList.add('sender');
+	sender.innerHTML = `Sender: ${this.email.sender}`;
+
+	//Add recipient info
+	let recipient = document.createElement('h6');
+	recipient.classList.add('recipient');
+	recipients = this.email.recipients.join(',');
+	recipient.innerHTML = `Recipient: ${recipients}`;
+
+	//Add Timestamp info
+	let timestamp = document.createElement('h6');
+	timestamp.classList.add('timestamp');
+	timestamp.innerHTML = `Timestamp: ${this.email.timestamp}`;
+
+	//Add all to emailInfo
+	emailInfo.append(sender, recipient, timestamp);
+
+	//Add body content
+	emailBody.innerHTML = this.email['body'];
+
+	//Add emailInfo and emailBody to the DOM
+	document.querySelector('#email-display-view').append(emailInfo, emailBody);
+
+	//Update the email to read
+	fetch(`/emails/${this.email.id}`, {
+		method: 'PUT',
+		body: JSON.stringify({
+			read: true
+		})
+	});
 }
