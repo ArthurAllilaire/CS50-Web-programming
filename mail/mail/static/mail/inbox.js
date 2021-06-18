@@ -25,7 +25,6 @@ function compose_email() {
 
 	//Submit function - sends email
 	function sendEmail(event) {
-		console.log('Sent email');
 		fetch('/emails', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -193,7 +192,6 @@ function load_email() {
     */
 		//Display the compose email div
 		compose_email();
-		console.log(this);
 		//Fill in fields
 		document.querySelector('#compose-recipients').value = this.recipients.join(' ');
 
