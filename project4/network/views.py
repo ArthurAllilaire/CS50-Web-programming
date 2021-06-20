@@ -1,14 +1,40 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
+from django.forms.widgets import TextInput, Textarea
 from django.shortcuts import render
 from django.urls import reverse
+from django.forms import ModelForm
+from django.contrib.auth.decorators import login_required
 
-from .models import User
+from .models import User, Post
+
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ["text"]
+        widgets = {
+            "text": Textarea()
+        }
 
 
 def index(request):
-    return render(request, "network/index.html")
+    return render(request, "network/index.html", {
+        "post_form": PostForm(),
+    })
+
+def all_posts(request):
+    return render(request, "network/all-posts.html",{
+        "posts": Post.objects.all(),
+    })
+
+@login_required(login_url="/login")
+def create_post(request):
+    if request.method == "POST":
+        user = request.user
+        form = PostForm(request.POST, instance=Post(user=user))
+        form.save()
+        return HttpResponseRedirect(reverse("index"))
 
 
 def login_view(request):

@@ -1,5 +1,11 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    {% if user.is_authenticated %}
+    <form action="{% url 'create-post' %}" method="post">
+        {% csrf_token %}
+        {{post_form}}
+        <input type="submit" value="Create new post">
+    </form>
+    {% endif %}
 {% endblock %}
