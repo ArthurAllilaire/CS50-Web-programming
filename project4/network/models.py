@@ -32,5 +32,7 @@ class Post(models.Model):
         related_name="likedPosts"
     )
     date = models.DateTimeField(
-        verbose_name="Published:"
+        verbose_name="Published:",
+        auto_now_add=True,
+        blank=True
     )
