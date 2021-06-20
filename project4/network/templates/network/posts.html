@@ -1,0 +1,13 @@
+<div class="posts-cont">
+  {% for post in posts %}
+  <div class="post-cont">
+    <a href="{% url 'user-profile' post.user.id%}" class="user">{{post.user}}</a>
+    <div class="date">{{post.date}}</div>
+    <div class="text">{{post.text}}</div>
+    <div class="likes">{{post.likes.count}}</div>
+
+  </div>
+  {% empty %}
+    <h1>There are no posts</h1>
+  {% endfor %}
+</div>

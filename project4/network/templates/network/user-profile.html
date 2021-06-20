@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="profile-cont">
+      <div class="user-cont">
+        <div class="title">
+          <h1>{{profile-user.username}}</h1>
+          {% comment %} Check user is authenticated and whether follow or unfollow action has been specified {% endcomment %}
+          {% if user.is_authenticated and action%}
+            <form action="{% url 'follow' profile-user.id %}" method="post">
+              <input type="submit" value="{{action}}" name="action" class="follow-btn">
+            </form>
+          {% endif %}
+        </div>
+        <div class="followers">Number of followers: {{profile-user.followers.count}}</div>
+        <div class="follows">Number of follows: {{profile-user.follows.count}}</div>
+      </div>
+        {%include "network/posts.html"%}
+    </div>
+
+{% endblock %}

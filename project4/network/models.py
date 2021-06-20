@@ -20,7 +20,7 @@ class Post(models.Model):
     """
     user = models.ForeignKey(
         User, 
-        on_delete=CASCADE, related_name="author")
+        on_delete=CASCADE, related_name="posts")
     text = models.CharField(
         max_length=1000,
         verbose_name="Post:"
