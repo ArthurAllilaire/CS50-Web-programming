@@ -7,6 +7,8 @@ from django.urls import reverse
 from django.forms import ModelForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.paginator import Paginator
+
 
 
 from .models import User, Post
@@ -27,9 +29,11 @@ def index(request):
     })
 
 
-def all_posts(request):
+def all_posts(request, page_num=1):
+    posts = Post.objects.all().order_by("-date")
+    p = Paginator(posts, 10)
     return render(request, "network/all-posts.html", {
-        "posts": Post.objects.all().order_by("-date"),
+        "posts": p.page(page_num)
     })
 
 
