@@ -87,7 +87,7 @@ def following_posts(request, page_num=1):
         "posts": p.page(page_num),
     })
 
-def user_profile(request, user_id):
+def user_profile(request, user_id, page_num=1):
     try:
         user = User.objects.get(pk=user_id)
     except ObjectDoesNotExist:
@@ -112,7 +112,7 @@ def user_profile(request, user_id):
 
     return render(request, "network/user-profile.html", {
         "profile_user": user,
-        "posts": posts,
+        "posts": Paginator(posts, 10).page(page_num),
         "action": action,
     })
 

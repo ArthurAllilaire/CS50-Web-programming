@@ -13,6 +13,7 @@ urlpatterns = [
     path("following-posts", views.following_posts, name="following-posts"),
     path("following-posts/<int:page_num>", views.following_posts, name="following-posts"),
     path("user-profile/<int:user_id>",views.user_profile, name="user-profile"),
+    path("user-profile/<int:user_id>/<int:page_num>",views.user_profile, name="user-profile"),
     path("follow/<int:user_id>",views.follow, name="follow"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
