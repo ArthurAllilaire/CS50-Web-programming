@@ -1,5 +1,7 @@
 from django.test import TestCase, Client
 from .models import User, Post
+from django.urls.base import reverse
+
 # Create your tests here.
 
 def create_user(id = "", follows=None, followers=None):
@@ -22,6 +24,16 @@ def create_user(id = "", follows=None, followers=None):
 
   user.save()
   return user
+
+def create_num_of_users(num_users):
+  """ Takes number of users to create (int) and returns list of test_users which have been created """
+  for num in range(num_users):
+    if num == 0:
+      result = [create_user()]
+    else:
+      result.append(create_user(str(num)))
+
+  return result
 
 def create_post(user, text, likes=None):
   """
@@ -120,3 +132,59 @@ class PostModelTests(TestCase):
     self.assertQuerysetEqual(post3.likes.all(), User.objects.exclude(username=user3).exclude(username=user), ordered=False)
 
   
+class PostsViews(TestCase):
+  def test_following_posts(self):
+    users = create_num_of_users(5)
+
+    user = users[0]
+    user1 = users[1]
+
+    # Make all users follow user
+    user.followers.add(users[1], users[2], users[3], users[4])
+
+    #Create posts for users
+    post1 = create_post(user, "Post1")
+    post2 = create_post(user, "Post2")
+
+    #Login user1
+    self.client.force_login(user1)
+
+    #Get the web page
+    response = self.client.get(reverse("following-posts"))
+
+    #Make sure posts are in the context and in the right order
+    self.assertQuerysetEqual(response.context["posts"], Post.objects.all().order_by("-date"))
+
+    #Make sure the text is contained on the page
+    self.assertContains(response, "Post1" and "Post2")
+
+    #Add user2 posts
+    user2 = users[2]
+
+    #Create posts for user2
+    post1 = create_post(user2, "Post3")
+    post2 = create_post(user2, "Post4")
+
+    #user1 follows user2
+    user1.follows.add(user2)
+
+    #Get the web page
+    response = self.client.get(reverse("following-posts"))
+
+    #Make sure posts are in the context and in the right order
+    self.assertQuerysetEqual(response.context["posts"], Post.objects.all().order_by("-date"))
+
+    #Make sure the text is contained on the page
+    self.assertContains(response, "Post1" and "Post2" and "Post3" and "Post4")
+
+    #Unfollow user from user1
+    user1.follows.remove(user)
+
+    #Get the web page
+    response = self.client.get(reverse("following-posts"))
+
+    #Make sure posts are in the context and in the right order
+    self.assertQuerysetEqual(response.context["posts"], Post.objects.filter(user=user2).order_by("-date"))
+
+    #Make sure the text is contained on the page
+    self.assertContains(response, "Post3" and "Post4")
