@@ -45,9 +45,42 @@ def create_post(request):
 def follow(request, user_id):
     """ Takes in the user_id of person to be followed or unfollowed and adds authenticated user to follow list """
     if request.method == "POST":
-        pass
-    # I AM HERE
+        #Get the action (either follow or unfollow)
+        action = request.POST["action"]
+        try:    
+            follower = User.objects.get(pk=user_id)
+        except ObjectDoesNotExist:
+            return HttpResponseRedirect(reverse("index"))
 
+        if action == "Follow":
+            request.user.follows.add(follower)
+        elif action == "Unfollow":
+            request.user.follows.remove(follower)
+        return HttpResponseRedirect(reverse("user-profile", args=[user_id]))
+
+@login_required(login_url="/login")
+def following_posts(request):
+    counter = 0
+    related_posts = None
+    #Go through every user the authenticated user follows that has a post
+    for user in request.user.follows.filter(posts__isnull=False):
+        #If this is the first iteration use the queryset as the base set by storing it in related_posts
+        if counter == 0:
+            related_posts = user.posts.all()
+            counter += 1
+        #else Add the posts to a list result
+        else: 
+            related_posts = related_posts.union(user.posts.all())
+
+    #Check if related_posts were found
+    if related_posts:
+        #If they were, order them in reverse chronological order
+        related_posts = related_posts.order_by("-date")
+
+    return render(request, "network/all-posts.html", {
+        #Order in reverse chronological order
+        "posts": related_posts,
+    })
 
 def user_profile(request, user_id):
     try:
@@ -62,7 +95,7 @@ def user_profile(request, user_id):
     if request.user and request.user != user:
         #Find out if the authenticated user follows the profile user
         try:
-            request.user.follows.get(user_id=user.id)
+            request.user.follows.get(pk=user.id)
         #If you don't follow 
         except ObjectDoesNotExist:
             action = "Follow"
@@ -73,7 +106,7 @@ def user_profile(request, user_id):
 
 
     return render(request, "network/user-profile.html", {
-        "profile-user": user,
+        "profile_user": user,
         "posts": posts,
         "action": action,
     })
