@@ -63,7 +63,7 @@ def follow(request, user_id):
         return HttpResponseRedirect(reverse("user-profile", args=[user_id]))
 
 @login_required(login_url="/login")
-def following_posts(request):
+def following_posts(request, page_num=1):
     counter = 0
     related_posts = None
     #Go through every user the authenticated user follows that has a post
@@ -80,10 +80,11 @@ def following_posts(request):
     if related_posts:
         #If they were, order them in reverse chronological order
         related_posts = related_posts.order_by("-date")
+        p = Paginator(related_posts, 10)
 
     return render(request, "network/all-posts.html", {
         #Order in reverse chronological order
-        "posts": related_posts,
+        "posts": p.page(page_num),
     })
 
 def user_profile(request, user_id):
