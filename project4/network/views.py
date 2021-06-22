@@ -10,7 +10,6 @@ from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.core.paginator import Paginator
 
 
-
 from .models import User, Post
 
 
@@ -19,7 +18,7 @@ class PostForm(ModelForm):
         model = Post
         fields = ["text"]
         widgets = {
-            "text": Textarea()
+            "text": Textarea(attrs={"rows": 5})
         }
 
 
@@ -29,11 +28,21 @@ def index(request):
     })
 
 
+class EditForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ["text"]
+        widgets = {
+            "text": Textarea(attrs={"rows": 3})
+        }
+
+
 def all_posts(request, page_num=1):
     posts = Post.objects.all().order_by("-date")
     p = Paginator(posts, 10)
     return render(request, "network/all-posts.html", {
-        "posts": p.page(page_num)
+        "posts": p.page(page_num),
+        "edit_post_form": EditForm()
     })
 
 
@@ -45,13 +54,14 @@ def create_post(request):
         form.save()
         return HttpResponseRedirect(reverse("index"))
 
+
 @login_required(login_url="/login")
 def follow(request, user_id):
     """ Takes in the user_id of person to be followed or unfollowed and adds authenticated user to follow list """
     if request.method == "POST":
-        #Get the action (either follow or unfollow)
+        # Get the action (either follow or unfollow)
         action = request.POST["action"]
-        try:    
+        try:
             follower = User.objects.get(pk=user_id)
         except ObjectDoesNotExist:
             return HttpResponseRedirect(reverse("index"))
@@ -62,30 +72,35 @@ def follow(request, user_id):
             request.user.follows.remove(follower)
         return HttpResponseRedirect(reverse("user-profile", args=[user_id]))
 
+
 @login_required(login_url="/login")
 def following_posts(request, page_num=1):
     counter = 0
     related_posts = None
-    #Go through every user the authenticated user follows that has a post
+    # Go through every user the authenticated user follows that has a post
     for user in request.user.follows.filter(posts__isnull=False):
-        #If this is the first iteration use the queryset as the base set by storing it in related_posts
+        # If this is the first iteration use the queryset as the base set by storing it in related_posts
         if counter == 0:
             related_posts = user.posts.all()
             counter += 1
-        #else Add the posts to a list result
-        else: 
+        # else Add the posts to a list result
+        else:
             related_posts = related_posts.union(user.posts.all())
 
-    #Check if related_posts were found
+    # Check if related_posts were found
     if related_posts:
-        #If they were, order them in reverse chronological order
+        # If they were, order them in reverse chronological order
         related_posts = related_posts.order_by("-date")
         p = Paginator(related_posts, 10)
+        p = p.page(page_num)
+    else:
+        p = None
 
     return render(request, "network/all-posts.html", {
-        #Order in reverse chronological order
-        "posts": p.page(page_num),
+        # Order in reverse chronological order
+        "posts": p,
     })
+
 
 def user_profile(request, user_id, page_num=1):
     try:
@@ -93,15 +108,15 @@ def user_profile(request, user_id, page_num=1):
     except ObjectDoesNotExist:
         return HttpResponseRedirect(reverse("index"))
 
-    #Get all the posts of the user
+    # Get all the posts of the user
     posts = user.posts.all().order_by("-date")
 
-    #Check if the authenticated user is different to the current user
+    # Check if the authenticated user is different to the current user
     if request.user and request.user != user:
-        #Find out if the authenticated user follows the profile user
+        # Find out if the authenticated user follows the profile user
         try:
             request.user.follows.get(pk=user.id)
-        #If you don't follow 
+        # If you don't follow
         except ObjectDoesNotExist:
             action = "Follow"
         else:
@@ -109,12 +124,13 @@ def user_profile(request, user_id, page_num=1):
     else:
         action = False
 
-
     return render(request, "network/user-profile.html", {
         "profile_user": user,
         "posts": Paginator(posts, 10).page(page_num),
         "action": action,
+        "edit_post_form": EditForm()
     })
+
 
 def login_view(request):
     if request.method == "POST":
@@ -166,3 +182,11 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+@login_required(login_url="/login")
+def edit_post(request):
+    if request.method == "POST":
+        pass
+
+        # Need to check to ensure user that is authenticated is same as author of post
