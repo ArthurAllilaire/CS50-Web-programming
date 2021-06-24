@@ -80,7 +80,6 @@ document.addEventListener('click', function(event) {
 		// Toggle to opposite like
 		//Get the text content of the button
 		let textCont = element.childNodes[2].textContent;
-		console.log(textCont);
 		//Get rid of any white space
 		if (String(textCont).replace(/\s+/g, '') === 'Like') {
 			textCont = ' Unlike';
