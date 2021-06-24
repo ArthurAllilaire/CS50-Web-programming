@@ -1,3 +1,4 @@
+import json
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
@@ -7,6 +8,7 @@ from django.urls import reverse
 from django.forms import ModelForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 
 
@@ -187,6 +189,30 @@ def register(request):
 @login_required(login_url="/login")
 def edit_post(request):
     if request.method == "POST":
-        pass
 
+        # convert the incoming json into a python dictionary
+        body = request.body
+        data = json.loads(request.body)
+
+        # Get data from the form
+        updated_text = data.get("text")
+        pk = data.get("pk")
+
+        # Get instance of the post using pk
+        post = Post.objects.get(pk=pk)
+
+        # Check that the authenticated user is the one that wrote the post
+        if request.user == post.user:
+
+            form = EditForm(data, instance=post)
+
+            # Save the updated version
+            form.save()
+
+            return JsonResponse({"Success": "post updated."}, status=201)
+        else:
+            return JsonResponse({"Error": "Permission denied, not author of the post."}, status=401)
+
+    else:
+        return JsonResponse({"error": "POST request required.", "method": request.method}, status=400)
         # Need to check to ensure user that is authenticated is same as author of post

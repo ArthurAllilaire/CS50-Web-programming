@@ -20,14 +20,17 @@
       {% endif %}
     </div>
     <div class="text">{{post.text}}</div>
-    <form action="{% url 'edit-post' %}" class="edit-form" hidden>
+    {% if user == post.user %}
+    <form class="edit-form" hidden>
       {% csrf_token %}
       {{edit_post_form.text}}
+      <input type="text" hidden name="pk" value="{{post.id}}" class="pk">
       <div class="buttons">
-        <input type="submit" value="Publish edited post" class="btn   btn-outline-primary">
-        <button type="button" class="btn   btn-outline-danger cancel-btn">Cancel</button>
+        <input type="submit" value="Publish edited post" class="btn submit-btn btn-outline-primary">
+        <button type="button" class="btn btn-outline-danger cancel-btn">Cancel</button>
       </div>
     </form>
+    {% endif %}
     <div class="date">{{post.date}}</div>
     <div class="likes">
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">

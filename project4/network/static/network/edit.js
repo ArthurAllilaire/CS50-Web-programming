@@ -9,24 +9,46 @@ function showFormNotText(post) {
 	//Show the form which is added by django backend
 	const form = post.querySelector('.edit-form');
 	form.removeAttribute('hidden');
-	console.log(text);
 
 	//Add the initial information to the form
 	form.querySelector('#id_text').value = text;
 
-	//Add submit function for form
-	form.onsubmit = sendPost;
-
 	function sendPost(event) {
-		console.log('works');
-		return false;
-		fetch('/edit-post', {
+		//Hide form and show text
+		event.preventDefault();
+		const post = this.parentElement;
+		const textValue = this.querySelector('#id_text').value;
+		const text = post.querySelector('.text');
+		text.innerHTML = textValue;
+		text.style.display = 'block';
+
+		this.setAttribute('hidden', true);
+
+		// Trying to send a post method, so need to have csrf token
+		csrftoken = this.querySelector('input[name=csrfmiddlewaretoken]').value;
+
+		//Create a request with the csrf token
+		const request = new Request('/edit-post', { headers: { 'X-CSRFToken': csrftoken } });
+
+		//Pass the request and body of form
+		fetch(request, {
 			method: 'POST',
+			mode: 'same-origin',
 			body: JSON.stringify({
-				text: document.getElementById('id_text').value
+				text: textValue,
+				pk: this.querySelector('.pk').value
 			})
-		});
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				// Print result
+				console.log(result);
+			});
 	}
+	let boundSendPost = sendPost.bind(form);
+
+	//Add submit function for form
+	form.addEventListener('submit', boundSendPost, true);
 }
 
 document.addEventListener('click', function(event) {
@@ -42,7 +64,6 @@ document.addEventListener('click', function(event) {
 		showFormNotText(post);
 	} else if (element.classList.contains('cancel-btn')) {
 		const post = element.parentElement.parentElement.parentElement;
-		console.log('works');
 
 		//Get form and hide it
 		const form = post.querySelector('form');
