@@ -7,7 +7,6 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("create-post", views.create_post, name="create-post"),
-    path("edit-post", views.edit_post, name="edit-post"),
     path("all-posts", views.all_posts, name="all-posts"),
     # Can add optional page argument to get a specific page
     path("all-posts/<int:page_num>", views.all_posts, name="all-posts"),
@@ -20,5 +19,9 @@ urlpatterns = [
     path("follow/<int:user_id>", views.follow, name="follow"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
-    path("register", views.register, name="register")
+    path("register", views.register, name="register"),
+
+    #     API routes
+    path("edit-post", views.edit_post, name="edit-post"),
+    path("like-post", views.like_post, name="like-post")
 ]

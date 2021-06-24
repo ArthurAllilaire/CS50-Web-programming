@@ -4,12 +4,17 @@
   <div class="post-cont">
     <div class="header">
       <a href="{% url 'user-profile' post.user.id%}" class="user">{{post.user}}</a>
-      <button class="btn btn-outline-danger like-btn" id="like-btn-{{post.id}}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-        </svg>
-         Like
-      </button>
+      {% if user.is_authenticated %}
+        <button class="btn btn-outline-danger like-btn" value="{{post.id}}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+          </svg>
+          {% if user in post.likes.all %}
+          Unlike
+          {% else %}
+          Like
+          {% endif %}
+        </button>
       {% if user == post.user %}
       <button class="btn btn-outline-primary edit-btn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
@@ -17,6 +22,7 @@
         </svg>
         Edit
       </button>
+      {% endif %}
       {% endif %}
     </div>
     <div class="text">{{post.text}}</div>

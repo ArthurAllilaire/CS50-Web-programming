@@ -216,3 +216,32 @@ def edit_post(request):
     else:
         return JsonResponse({"error": "POST request required.", "method": request.method}, status=400)
         # Need to check to ensure user that is authenticated is same as author of post
+
+
+def like_post(request):
+    """ Toggle like status of the post. Returns successful code and new amount of likes """
+    if request.method == "POST":
+
+        # convert the incoming json into a python dictionary
+        data = json.loads(request.body)
+
+        # Get data from the form
+        pk = data.get("pk")
+        like = data.get("like")
+
+        # Get instance of the post using pk
+        post = Post.objects.get(pk=pk)
+
+        # If user want to like the post add them
+        if like:
+            post.likes.add(request.user)
+
+        # Else remove them
+        else:
+            post.likes.remove(request.user)
+
+        return JsonResponse({"Success": "Like value updated", "likes": post.likes.count()}, status=201)
+
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)
+        # Need to check to ensure user that is authenticated is same as author of post

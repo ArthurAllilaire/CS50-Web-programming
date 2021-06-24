@@ -73,5 +73,52 @@ document.addEventListener('click', function(event) {
 		//Get text
 		const text = post.querySelector('.text');
 		text.style.display = 'block';
+	} else if (element.classList.contains('like-btn')) {
+		//
+		let liking = true;
+
+		// Toggle to opposite like
+		//Get the text content of the button
+		let textCont = element.childNodes[2].textContent;
+		console.log(textCont);
+		//Get rid of any white space
+		if (String(textCont).replace(/\s+/g, '') === 'Like') {
+			textCont = ' Unlike';
+			// If the User has not yet liked the picture he wants to like it
+		} else {
+			textCont = ' Like';
+			//User doesn't want to like the picture
+			liking = false;
+		}
+		//Add new text value
+		element.childNodes[2].nodeValue = textCont;
+
+		// Trying to send a post method, so need to have csrf token - there are plenty of forms, just get one of them
+		csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
+
+		//Create a request with the csrf token
+		const request = new Request('/like-post', { headers: { 'X-CSRFToken': csrftoken } });
+
+		// Send asynchronously the like to backend
+		fetch(request, {
+			method: 'POST',
+			mode: 'same-origin',
+			body: JSON.stringify({
+				// Value of the button is set to pk of post
+				pk: element.value,
+				//like
+				like: liking
+			})
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				//convert like count to string with space in front
+				likeCount = ' ' + result['likes'];
+
+				const post = element.parentElement.parentElement;
+
+				// Update the like counter
+				post.querySelector('.likes').childNodes[2].nodeValue = likeCount;
+			});
 	}
 });
