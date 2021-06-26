@@ -44,7 +44,8 @@ def all_posts(request, page_num=1):
     p = Paginator(posts, 10)
     return render(request, "network/all-posts.html", {
         "posts": p.page(page_num),
-        "edit_post_form": EditForm()
+        "edit_post_form": EditForm(),
+        "base_url": reverse("all-posts")
     })
 
 
@@ -101,6 +102,8 @@ def following_posts(request, page_num=1):
     return render(request, "network/all-posts.html", {
         # Order in reverse chronological order
         "posts": p,
+        # Pass the name of the url, for the paginator
+        "base_url": reverse("following-posts")
     })
 
 
@@ -129,6 +132,7 @@ def user_profile(request, user_id, page_num=1):
     return render(request, "network/user-profile.html", {
         "profile_user": user,
         "posts": Paginator(posts, 10).page(page_num),
+        "base_url": reverse("user-profile", args=[user.id]),
         "action": action,
         "edit_post_form": EditForm()
     })

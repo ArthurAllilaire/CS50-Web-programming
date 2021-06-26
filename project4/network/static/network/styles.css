@@ -81,4 +81,32 @@ nav .pagination {
           justify-content: center;
   margin-top: 20px;
 }
+
+.profile-cont .user-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.profile-cont .user-cont .title {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-left: 5px;
+}
+
+.profile-cont .user-cont .stats {
+  padding-right: 5px;
+}
 /*# sourceMappingURL=styles.css.map */

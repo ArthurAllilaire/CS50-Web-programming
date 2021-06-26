@@ -95,6 +95,7 @@ document.addEventListener('click', function(event) {
 		// Trying to send a post method, so need to have csrf token - there are plenty of forms, just get one of them
 		csrftoken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
 
+		//Link to csrf documentation: https://docs.djangoproject.com/en/3.2/ref/csrf/#ajax
 		//Create a request with the csrf token
 		const request = new Request('/like-post', { headers: { 'X-CSRFToken': csrftoken } });
 

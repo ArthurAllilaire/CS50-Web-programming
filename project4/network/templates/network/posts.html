@@ -56,18 +56,18 @@
       {% comment %} Previous pages {% endcomment %}
       {% if posts.has_previous %}
         <li class="page-item">
-          <a href="{{request.path}}/{{posts.previous_page_number}}">Previous Page</a>
+          <a href="{{base_url}}/{{posts.previous_page_number}}" class="page-link">Previous Page</a>
         </li> 
       {% endif %}
       {% comment %} List of pages {% endcomment %}
       {% for page_num in posts.paginator.page_range %}
         {% if page_num == posts.number %}
           <li class="page-item active">
-            <a href="{{request.path}}" class="page-link">{{page_num}}</a>
+            <a href="#" class="page-link">{{page_num}}</a>
           </li>
         {% else %}
           <li class="page-item">
-            <a href="{{request.path}}/{{page_num}}" class="page-link">{{page_num}}</a>
+            <a href="{{base_url}}/{{page_num}}" class="page-link">{{page_num}}</a>
           </li>
         {% endif %}
       {% endfor %}
@@ -75,10 +75,10 @@
       {% comment %} Next pages {% endcomment %}
       {% if posts.has_next %}
         <li class="page-item">
-          <a href="{% url '{{request.path}}' posts.next_page_number %}">Next Page</a>
+          <a href="{{base_url}}/{{posts.next_page_number}}" class="page-link">Next Page</a>
         </li>
         <li class="page-item">
-          <a href="{% url '{{request.path}}' posts.paginator.num_pages %}">Last Page</a>
+          <a href="{{base_url}}/{{posts.paginator.num_pages}}" class="page-link">Last Page</a>
         </li> 
       {% endif %}
     </ul>

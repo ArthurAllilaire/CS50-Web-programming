@@ -13,8 +13,10 @@
             </form>
           {% endif %}
         </div>
-        <div class="followers">Number of followers: {{profile_user.followers.count}}</div>
-        <div class="follows">Number of follows: {{profile_user.follows.count}}</div>
+        <div class="stats">
+          <div class="followers">Followers: {{profile_user.followers.count}}</div>
+          <div class="follows">Following: {{profile_user.follows.count}}</div>
+        </div>
       </div>
         {%include "network/posts.html"%}
     </div>
