@@ -111,7 +111,7 @@ The API documentation was very helpful here, so was this blog post on creating a
 ### Timeframe: 1-2 days
 
 ## Project 4: Social media site
-### Video of my website: https://www.youtube.com/watch?v=K5ED6ndYDcY
+### Video of my website: https://www.youtube.com/watch?v=OS3vain5EYs
 ### Specification:
 
 *   **New Post**: Users who are signed in should be able to write a new text-based post by filling in text into a text area and then clicking a button to submit the post.
